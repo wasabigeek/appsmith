@@ -13,6 +13,7 @@ import {
   DerivedPropertiesMap,
 } from "utils/WidgetFactory";
 import * as Sentry from "@sentry/react";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 class CheckboxWidget extends BaseWidget<CheckboxWidgetProps, WidgetState> {
   static getPropertyValidationMap(): WidgetPropertyValidationType {
@@ -66,7 +67,7 @@ class CheckboxWidget extends BaseWidget<CheckboxWidgetProps, WidgetState> {
     this.updateWidgetMetaProperty("isChecked", isChecked);
     if (this.props.onCheckChange) {
       super.executeAction({
-        dynamicString: this.props.onCheckChange,
+        triggers: this.props.onCheckChange,
         event: {
           type: EventType.ON_CHECK_CHANGE,
         },
@@ -84,7 +85,7 @@ export interface CheckboxWidgetProps extends WidgetProps {
   defaultCheckedState: boolean;
   isChecked?: boolean;
   isDisabled?: boolean;
-  onCheckChange?: string;
+  onCheckChange?: ActionDescription<any>[];
 }
 
 export default CheckboxWidget;

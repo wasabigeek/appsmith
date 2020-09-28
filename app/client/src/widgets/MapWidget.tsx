@@ -9,6 +9,7 @@ import { TriggerPropertiesMap } from "utils/WidgetFactory";
 import { getAppsmithConfigs } from "configs";
 import styled from "styled-components";
 import * as Sentry from "@sentry/react";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 const { google } = getAppsmithConfigs();
 
@@ -88,7 +89,7 @@ class MapWidget extends BaseWidget<MapWidgetProps, WidgetState> {
     });
     if (this.props.onCreateMarker) {
       super.executeAction({
-        dynamicString: this.props.onCreateMarker,
+        triggers: this.props.onCreateMarker,
         event: {
           type: EventType.ON_CREATE_MARKER,
         },
@@ -105,7 +106,7 @@ class MapWidget extends BaseWidget<MapWidgetProps, WidgetState> {
     this.disableDrag(true);
     if (this.props.onMarkerClick) {
       super.executeAction({
-        dynamicString: this.props.onMarkerClick,
+        triggers: this.props.onMarkerClick,
         event: {
           type: EventType.ON_MARKER_CLICK,
         },
@@ -194,8 +195,8 @@ export interface MapWidgetProps extends WidgetProps {
     long: number;
     title?: string;
   };
-  onMarkerClick?: string;
-  onCreateMarker?: string;
+  onMarkerClick?: ActionDescription<any>[];
+  onCreateMarker?: ActionDescription<any>[];
 }
 
 export default MapWidget;

@@ -13,6 +13,7 @@ import {
   TriggerPropertiesMap,
 } from "utils/WidgetFactory";
 import * as Sentry from "@sentry/react";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 class DatePickerWidget extends BaseWidget<DatePickerWidgetProps, WidgetState> {
   static getPropertyValidationMap(): WidgetPropertyValidationType {
@@ -76,7 +77,7 @@ class DatePickerWidget extends BaseWidget<DatePickerWidgetProps, WidgetState> {
     this.updateWidgetMetaProperty("selectedDate", selectedDate);
     if (this.props.onDateSelected) {
       super.executeAction({
-        dynamicString: this.props.onDateSelected,
+        triggers: this.props.onDateSelected,
         event: {
           type: EventType.ON_DATE_SELECTED,
         },
@@ -98,8 +99,8 @@ export interface DatePickerWidgetProps extends WidgetProps {
   dateFormat: string;
   label: string;
   datePickerType: DatePickerType;
-  onDateSelected?: string;
-  onDateRangeSelected?: string;
+  onDateSelected?: ActionDescription<any>[];
+  onDateRangeSelected?: ActionDescription<any>[];
   maxDate: Date;
   minDate: Date;
   isRequired?: boolean;

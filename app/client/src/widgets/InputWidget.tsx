@@ -17,6 +17,7 @@ import {
 } from "utils/WidgetFactory";
 import _ from "lodash";
 import * as Sentry from "@sentry/react";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 class InputWidget extends BaseWidget<InputWidgetProps, InputWidgetState> {
   debouncedHandleTextChanged = _.debounce(
@@ -124,7 +125,7 @@ class InputWidget extends BaseWidget<InputWidgetProps, InputWidgetState> {
   handleTextChanged() {
     if (this.props.onTextChanged) {
       super.executeAction({
-        dynamicString: this.props.onTextChanged,
+        triggers: this.props.onTextChanged,
         event: {
           type: EventType.ON_TEXT_CHANGE,
         },
@@ -206,7 +207,7 @@ export interface InputWidgetProps extends WidgetProps {
   maxChars?: number;
   minNum?: number;
   maxNum?: number;
-  onTextChanged?: string;
+  onTextChanged?: ActionDescription<any>[];
   label: string;
   inputValidators: InputValidator[];
   isValid: boolean;

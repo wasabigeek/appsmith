@@ -10,6 +10,7 @@ import { EventType } from "constants/ActionConstants";
 import { WidgetOperations } from "widgets/BaseWidget";
 import * as Sentry from "@sentry/react";
 import { generateReactKey } from "utils/generators";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 class TabsWidget extends BaseWidget<
   TabsWidgetProps<TabContainerWidgetProps>,
@@ -26,7 +27,7 @@ class TabsWidget extends BaseWidget<
     this.updateWidgetMetaProperty("selectedTabId", tabId);
     if (this.props.onTabSelected) {
       super.executeAction({
-        dynamicString: this.props.onTabSelected,
+        triggers: this.props.onTabSelected,
         event: {
           type: EventType.ON_TAB_CHANGE,
         },
@@ -254,7 +255,7 @@ export interface TabsWidgetProps<T extends TabContainerWidgetProps>
   shouldShowTabs: boolean;
   children: T[];
   snapColumns?: number;
-  onTabSelected?: string;
+  onTabSelected?: ActionDescription<any>[];
   snapRows?: number;
   defaultTab: string;
   selectedTabId: string;

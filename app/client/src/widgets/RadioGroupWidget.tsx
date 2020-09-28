@@ -10,6 +10,7 @@ import {
 import { VALIDATION_TYPES } from "constants/WidgetValidation";
 import { TriggerPropertiesMap } from "utils/WidgetFactory";
 import * as Sentry from "@sentry/react";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 class RadioGroupWidget extends BaseWidget<RadioGroupWidgetProps, WidgetState> {
   static getPropertyValidationMap(): WidgetPropertyValidationType {
@@ -68,7 +69,7 @@ class RadioGroupWidget extends BaseWidget<RadioGroupWidgetProps, WidgetState> {
     super.updateWidgetMetaProperty("selectedOptionValue", updatedValue);
     if (this.props.onSelectionChange) {
       super.executeAction({
-        dynamicString: this.props.onSelectionChange,
+        triggers: this.props.onSelectionChange,
         event: {
           type: EventType.ON_OPTION_CHANGE,
         },
@@ -91,7 +92,7 @@ export interface RadioGroupWidgetProps extends WidgetProps {
   label: string;
   options: RadioOption[];
   selectedOptionValue: string;
-  onSelectionChange: string;
+  onSelectionChange: ActionDescription<any>[];
   defaultOptionValue: string;
   isRequired?: boolean;
 }

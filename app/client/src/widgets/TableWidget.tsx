@@ -24,6 +24,7 @@ import moment from "moment";
 import { isString, isNumber, isUndefined } from "lodash";
 import * as Sentry from "@sentry/react";
 import { retryPromise } from "utils/AppsmithUtils";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 const ReactTableComponent = lazy(() =>
   retryPromise(() =>
@@ -573,7 +574,7 @@ class TableWidget extends BaseWidget<TableWidgetProps, WidgetState> {
     super.updateWidgetMetaProperty("searchText", searchKey);
     if (onSearchTextChanged) {
       super.executeAction({
-        dynamicString: onSearchTextChanged,
+        triggers: onSearchTextChanged,
         event: {
           type: EventType.ON_SEARCH,
         },
@@ -585,9 +586,12 @@ class TableWidget extends BaseWidget<TableWidgetProps, WidgetState> {
     super.updateWidgetProperty("hiddenColumns", hiddenColumns);
   };
 
-  onCommandClick = (action: string, onComplete: () => void) => {
+  onCommandClick = (
+    action: ActionDescription<any>[],
+    onComplete: () => void,
+  ) => {
     super.executeAction({
-      dynamicString: action,
+      triggers: action,
       event: {
         type: EventType.ON_CLICK,
         callback: onComplete,
@@ -620,7 +624,7 @@ class TableWidget extends BaseWidget<TableWidgetProps, WidgetState> {
     }
     if (onRowSelected) {
       super.executeAction({
-        dynamicString: onRowSelected,
+        triggers: onRowSelected,
         event: {
           type: EventType.ON_ROW_SELECTED,
         },
@@ -635,7 +639,7 @@ class TableWidget extends BaseWidget<TableWidgetProps, WidgetState> {
     if (this.props.onPageChange) {
       this.resetSelectedRowIndex();
       super.executeAction({
-        dynamicString: this.props.onPageChange,
+        triggers: this.props.onPageChange,
         event: {
           type: EventType.ON_NEXT_PAGE,
         },
@@ -656,7 +660,7 @@ class TableWidget extends BaseWidget<TableWidgetProps, WidgetState> {
       if (this.props.onPageChange) {
         this.resetSelectedRowIndex();
         super.executeAction({
-          dynamicString: this.props.onPageChange,
+          triggers: this.props.onPageChange,
           event: {
             type: EventType.ON_PREV_PAGE,
           },
@@ -704,10 +708,10 @@ export interface TableWidgetProps extends WidgetProps {
   searchText: string;
   defaultSearchText: string;
   tableData: object[];
-  onPageChange?: string;
+  onPageChange?: ActionDescription<any>[];
   pageSize: number;
-  onRowSelected?: string;
-  onSearchTextChanged: string;
+  onRowSelected?: ActionDescription<any>[];
+  onSearchTextChanged: ActionDescription<any>[];
   selectedRowIndex?: number;
   selectedRowIndices: number[];
   columnActions?: ColumnAction[];

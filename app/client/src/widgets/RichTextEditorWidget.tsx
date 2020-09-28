@@ -11,6 +11,7 @@ import {
 import Skeleton from "components/utils/Skeleton";
 import * as Sentry from "@sentry/react";
 import { retryPromise } from "utils/AppsmithUtils";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 const RichTextEditorComponent = lazy(() =>
   retryPromise(() =>
@@ -63,7 +64,7 @@ class RichTextEditorWidget extends BaseWidget<
     this.updateWidgetMetaProperty("text", text);
     if (this.props.onTextChange) {
       super.executeAction({
-        dynamicString: this.props.onTextChange,
+        triggers: this.props.onTextChange,
         event: {
           type: EventType.ON_TEXT_CHANGE,
         },
@@ -101,7 +102,7 @@ export interface RichTextEditorWidgetProps extends WidgetProps {
   defaultText?: string;
   text?: string;
   placeholder?: string;
-  onTextChange?: string;
+  onTextChange?: ActionDescription<any>[];
   isDisabled?: boolean;
   isVisible?: boolean;
 }

@@ -12,6 +12,7 @@ import { VALIDATION_TYPES } from "constants/WidgetValidation";
 import { TriggerPropertiesMap } from "utils/WidgetFactory";
 import { Intent as BlueprintIntent } from "@blueprintjs/core";
 import * as Sentry from "@sentry/react";
+import { ActionDescription } from "../entities/DataTree/dataTreeFactory";
 
 class DropdownWidget extends BaseWidget<DropdownWidgetProps, WidgetState> {
   static getPropertyValidationMap(): WidgetPropertyValidationType {
@@ -121,7 +122,7 @@ class DropdownWidget extends BaseWidget<DropdownWidgetProps, WidgetState> {
     }
     if (this.props.onOptionChange) {
       super.executeAction({
-        dynamicString: this.props.onOptionChange,
+        triggers: this.props.onOptionChange,
         event: {
           type: EventType.ON_OPTION_CHANGE,
         },
@@ -137,7 +138,7 @@ class DropdownWidget extends BaseWidget<DropdownWidgetProps, WidgetState> {
     this.updateWidgetMetaProperty("selectedOptionValueArr", newSelectedValue);
     if (this.props.onOptionChange) {
       super.executeAction({
-        dynamicString: this.props.onOptionChange,
+        triggers: this.props.onOptionChange,
         event: {
           type: EventType.ON_OPTION_CHANGE,
         },
@@ -168,7 +169,7 @@ export interface DropdownWidgetProps extends WidgetProps {
   selectionType: SelectionType;
   selectedOption: DropdownOption;
   options?: DropdownOption[];
-  onOptionChange?: string;
+  onOptionChange?: ActionDescription<any>[];
   defaultOptionValue?: string | string[];
   isRequired: boolean;
 }
